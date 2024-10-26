@@ -1,4 +1,14 @@
+#ifndef REGISTERS_H
+#define REGISTERS_H
+
+#include <iostream>
 #include <SDL2/SDL.h>
+#include <stdexcept>
+#include <string>
+using namespace std;
+
+const uint REG_SIZE = 8;
+const uint REG_COUNT = 8;
 
 const uint A = 0;
 const uint B = 1;
@@ -12,3 +22,18 @@ const uint AF = 8;
 const uint BC = 9;
 const uint DE = 10;
 const uint HL = 11;
+
+class Registers {
+    private: 
+        Uint8 registers[REG_COUNT];
+        Uint16 SP;
+        Uint16 PC;
+    public: 
+        Registers();
+        ~Registers();
+        Uint16 getReg(uint reg);
+        void setReg(int reg, Uint16 value);
+        string toString();
+};
+
+#endif

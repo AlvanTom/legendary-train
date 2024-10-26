@@ -1,7 +1,7 @@
 SRC_DIR= src
 BUILD_DIR = build/debug
 CC = g++
-SRC_FILES = ${wildcard ${SRC_DIR}/*.cpp}
+SRC_FILES = ${wildcard ${SRC_DIR}/*.cpp} ${wildcard ${SRC_DIR}/cpu/*.cpp}
 OBJ_NAME = legendarytrain
 LIBRARY_PATHS = -lSDL2
 COMPILER_FLAGS = -std=c++11 -Wall -O0 -g
