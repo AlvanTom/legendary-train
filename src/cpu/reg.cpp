@@ -1,6 +1,5 @@
 #include "reg.hpp"
 
-
 Registers::Registers() {
     for (int i = 0; i < REG_COUNT; i++) {
         setReg(i, i);
@@ -58,7 +57,7 @@ void Registers::setReg(int reg, Uint16 value) {
     }
 }
 
-string Registers::toString(){
+void Registers::printReg(){
     cout << "A: " << (uint)(getReg(A)) << endl;
     cout << "B: " << (uint)(getReg(B)) << endl;
     cout << "C: " << (uint)(getReg(C)) << endl;

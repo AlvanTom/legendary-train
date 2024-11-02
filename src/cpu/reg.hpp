@@ -33,7 +33,7 @@ class Registers {
         ~Registers();
         Uint16 getReg(uint reg);
         void setReg(int reg, Uint16 value);
-        string toString();
+        void printReg();
 };
 
 #endif

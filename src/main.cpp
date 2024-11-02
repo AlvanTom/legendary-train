@@ -1,10 +1,10 @@
 #include "main.hpp"
-using namespace std;
 #include "cpu/cpu.hpp"
+#include "ram/ram.hpp"
+using namespace std;
 
 int main () {
-    CPU myCPU = CPU();
-    myCPU.printReg();
+    RAM ram = RAM();
+    CPU myCPU = CPU(&ram);
     return 0; 
-
 }

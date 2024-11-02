@@ -13,3 +13,4 @@ Make sure you have SDL2 installed, then run:
 [Gameboy Technical Reference](https://gekkio.fi/files/gb-docs/gbctr.pdf)
 [Gameboy CPU Manual](http://marc.rawer.de/Gameboy/Docs/GBCPUman.pdf)
 [Gameboy CPU Instruction Set](https://www.pastraiser.com/cpu/gameboy/gameboy_opcodes.html)
+[Gameboy CPU Instructions](https://rgbds.gbdev.io/docs/v0.8.0/gbz80.7)
