@@ -2,13 +2,13 @@
 
 Registers::Registers() {
     for (int i = 0; i < REG_COUNT; i++) {
-        setReg(i, i);
+        setReg((Reg)i, i);
     }
 }
 
 Registers::~Registers() {}
 
-Uint16 Registers::getReg(uint reg) {
+Uint16 Registers::getReg(Reg reg) {
     if(reg > HL) throw std::invalid_argument("not a register");
     if(reg >= AF) {
         switch(reg) {
@@ -30,7 +30,7 @@ Uint16 Registers::getReg(uint reg) {
     }
 }
 
-void Registers::setReg(int reg, Uint16 value) {
+void Registers::setReg(Reg reg, Uint16 value) {
     if(reg > HL) throw std::invalid_argument("not a register");
     if(reg >= AF) {
         switch(reg) {
@@ -52,22 +52,30 @@ void Registers::setReg(int reg, Uint16 value) {
             break;
         }
     } else {
-        if(value > 255) throw std::invalid_argument("value too big");
+        if(value > 255) throw invalid_argument("value too big");
         registers[reg] = value;
     }
 }
+bool Registers::getFlag(Flags flag){
+    return (getReg(F) >> flag) & 1;
+}
+
+void Registers::setFlag(Flags flag, bool val){
+    if (val){
+        setReg(F, getReg(F) | (1 << flag));
+    } else {
+        setReg(F, getReg(F) & ((1 << flag) ^ 0));
+    }
+}
+
 
 void Registers::printReg(){
-    cout << "A: " << (uint)(getReg(A)) << endl;
-    cout << "B: " << (uint)(getReg(B)) << endl;
-    cout << "C: " << (uint)(getReg(C)) << endl;
-    cout << "D: " << (uint)(getReg(D)) << endl;
-    cout << "E: " << (uint)(getReg(E)) << endl;
-    cout << "F: " << (uint)(getReg(F))<< endl;
-    cout << "H: " << (uint)(getReg(H)) << endl;
-    cout << "L: " << (uint)(getReg(L)) << endl;
-    cout << "AF: " << (uint)(getReg(AF)) << endl;
-    cout << "BC: " << (uint)(getReg(BC)) << endl;
-    cout << "DE: " << (uint)(getReg(DE)) << endl;
-    cout << "HL: " << (uint)(getReg(HL)) << endl;
+    cout << "A: " << hex << (uint)(getReg(A)) << endl;
+    cout << "B: " << hex << (uint)(getReg(B)) << endl;
+    cout << "C: " << hex << (uint)(getReg(C)) << endl;
+    cout << "D: " << hex << (uint)(getReg(D)) << endl;
+    cout << "E: " << hex << (uint)(getReg(E)) << endl;
+    cout << "F(ZNHC): " << hex << (uint)(getReg(F) >> 4) << endl;
+    cout << "H: " << hex << (uint)(getReg(H)) << endl;
+    cout << "L: " << hex << (uint)(getReg(L)) << endl;
 }

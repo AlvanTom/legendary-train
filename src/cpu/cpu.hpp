@@ -14,8 +14,9 @@ class CPU{
         ~CPU();
         void printReg();
         void ldTest(int i, int j);
-        void blockOne(int dest, int src, RAM* ram);
-        int decoder8(int i);
+        Reg decoder8(Uint8 i);
+        void blockOne(Reg dest, Reg src, RAM* ram);
+        void blockTwo(Reg op, Reg operand, RAM* ram);
 };
 
 
