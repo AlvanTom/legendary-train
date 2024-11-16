@@ -1,5 +1,5 @@
-#ifndef RAM_H
-#define RAM_H
+#ifndef MEM_H
+#define MEM_H
 
 #include <SDL2/SDL.h>
 #include <stdexcept>
@@ -7,12 +7,12 @@
 #include <vector>
 using namespace std;
 
-class RAM {
+class MEM {
     private: 
        vector<Uint8> mem;
 public:
-        RAM();
-        ~RAM();
+        MEM();
+        ~MEM();
         Uint8 getByte(int addr);
         void setByte(int addr, Uint8 val);
         string toString();
