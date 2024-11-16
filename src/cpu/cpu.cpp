@@ -1,11 +1,11 @@
 #include "cpu.hpp"
 #include "reg.hpp"
-#include "../ram/ram.hpp"
+#include "../memory/mem.hpp"
 #include <cassert>
 #include <iostream>
 using namespace std;
 
-CPU::CPU(RAM* ram) {
+CPU::CPU(MEM* mem) {
     reg = Registers();
     for(int i = 0; i < 16; i++){
         for(int j = 0; j < 16; j++){
@@ -19,13 +19,13 @@ CPU::CPU(RAM* ram) {
 
                     Reg dest = (Reg)((byte >> 3) & 0b111);
                     Reg src = (Reg)(byte & 0b111);
-                    opcodes[i][j] = [this, dest, src, ram](){blockOne(decoder8(dest), decoder8(src), ram);};
+                    opcodes[i][j] = [this, dest, src, mem](){blockOne(decoder8(dest), decoder8(src), mem);};
                 break;
                 }
                 case 2:{
                     Reg op = decoder8((byte >> 3) & 0b111);
                     Reg operand = decoder8(byte & 0b111);
-                    opcodes[i][j] = [this, op, operand, ram](){blockTwo(op, operand, ram);};
+                    opcodes[i][j] = [this, op, operand, mem](){blockTwo(op, operand, mem);};
                 break;
                 }
                 case 3:{
@@ -68,7 +68,7 @@ Reg CPU::decoder8(Uint8 i){
 }
 
 // Block 1
-void CPU::blockOne(Reg dest, Reg src, RAM* ram) {
+void CPU::blockOne(Reg dest, Reg src, MEM* mem) {
     if(dest != HL && src != HL){
         reg.setReg(dest, reg.getReg(src));
         return;
@@ -78,23 +78,23 @@ void CPU::blockOne(Reg dest, Reg src, RAM* ram) {
         // TODO: HALT instr
         return;
     } 
-    assert((ram != nullptr));
+    assert((mem != nullptr));
     if (dest == HL){
-        ram->setByte(dest, reg.getReg(src));
+        mem->setByte(dest, reg.getReg(src));
         return;
     } 
     if(src == HL) {
-        reg.setReg(dest, ram->getByte(reg.getReg(src)));
+        reg.setReg(dest, mem->getByte(reg.getReg(src)));
         return;
     }
 }
 
 // Block 2
-void CPU::blockTwo(Reg op, Reg operand, RAM* ram) {
+void CPU::blockTwo(Reg op, Reg operand, MEM* mem) {
     Uint8 regA = (Uint8) reg.getReg(A);
     Uint8 r8;
     if(operand == HL){
-        r8 = (Uint8) ram->getByte(reg.getReg(HL));
+        r8 = (Uint8) mem->getByte(reg.getReg(HL));
     }else{
         r8 = (Uint8) reg.getReg(operand);
     }

@@ -1,28 +1,28 @@
-#include "ram.hpp"
+#include "mem.hpp"
 #include <string>
 #include <iostream>
 #include <vector>
 #include <iomanip>
 using namespace std;
 
-RAM::RAM() {
+MEM::MEM() {
     mem.assign(256*256, 0);
     // mem.reserve(255*255);
 }
 
-RAM::~RAM(){
+MEM::~MEM(){
 
 }
 
-Uint8 RAM::getByte(int addr){
+Uint8 MEM::getByte(int addr){
     return mem[addr];
 }
 
-void RAM::setByte(int addr, Uint8 val){
+void MEM::setByte(int addr, Uint8 val){
     mem[addr] = val;
 }
 
-string RAM::toString(){
+string MEM::toString(){
      for (size_t i = 0; i < mem.size(); ++i) {
         // Print each byte with leading zeros and fixed width of 2
         cout << hex << uppercase << setw(2) 
