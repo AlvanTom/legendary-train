@@ -12,6 +12,7 @@ class CPU{
     public:
         CPU(MEM* mem);
         ~CPU();
+        void execute();
         void printReg();
         void ldTest(int i, int j);
         Reg decoder8(Uint8 i);

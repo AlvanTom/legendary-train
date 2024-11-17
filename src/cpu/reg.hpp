@@ -41,6 +41,11 @@ class Registers {
         ~Registers();
         Uint16 getReg(Reg reg);
         void setReg(Reg reg, Uint16 value);
+        Uint16 getSP();
+        void setSP(Uint16 value);
+        Uint16 getPC();
+        void setPC(Uint16 value);
+        void incrementPC();
         bool getFlag(Flags flag);
         void setFlag(Flags flag, bool value);
         void printReg();
