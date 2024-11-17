@@ -68,7 +68,6 @@ void Registers::setFlag(Flags flag, bool val){
     }
 }
 
-
 void Registers::printReg(){
     cout << "A: " << hex << (uint)(getReg(A)) << endl;
     cout << "B: " << hex << (uint)(getReg(B)) << endl;
@@ -78,4 +77,20 @@ void Registers::printReg(){
     cout << "F(ZNHC): " << hex << (uint)(getReg(F) >> 4) << endl;
     cout << "H: " << hex << (uint)(getReg(H)) << endl;
     cout << "L: " << hex << (uint)(getReg(L)) << endl;
+}
+
+Uint16 Registers::getSP(){
+    return SP;
+}
+void Registers::setSP(Uint16 value){
+    SP = value;
+}
+Uint16 Registers::getPC(){
+    return PC;
+}
+void Registers::setPC(Uint16 value){
+    PC = value;
+}
+void Registers::incrementPC(){
+    PC++;
 }

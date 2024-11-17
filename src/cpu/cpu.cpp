@@ -16,7 +16,6 @@ CPU::CPU(MEM* mem) {
                 break;
                 }
                 case 1: {
-
                     Reg dest = (Reg)((byte >> 3) & 0b111);
                     Reg src = (Reg)(byte & 0b111);
                     opcodes[i][j] = [this, dest, src, mem](){blockOne(decoder8(dest), decoder8(src), mem);};
@@ -29,7 +28,6 @@ CPU::CPU(MEM* mem) {
                 break;
                 }
                 case 3:{
-
                     // Block 3
                 break;
                 }
@@ -47,6 +45,14 @@ CPU::CPU(MEM* mem) {
 }
 
 CPU::~CPU() {
+}
+
+void CPU::execute(){
+    while(1){
+        Uint16 pc = reg.getPC();
+        opcodes[pc>>4 & 0b1111][pc & 0b1111];
+        reg.incrementPC();
+    }
 }
 // Testing
 void CPU::ldTest(int i, int j) {
