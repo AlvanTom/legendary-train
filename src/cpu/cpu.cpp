@@ -13,6 +13,7 @@ CPU::CPU(MEM* mem) {
             switch (byte >> 6) {
                 case 0: {
                     // Block 0
+                    opcodes[i][j] = [this, byte, mem](){blockZero(byte, mem);};
                 break;
                 }
                 case 1: {
@@ -72,7 +73,71 @@ Reg CPU::decoder8(Uint8 i){
     }
     throw invalid_argument("Not a valid register");
 }
+Reg CPU::decoder16(Uint8 i){
+    switch(i){
+        case(0): return BC;
+        case(1): return DE;
+        case(2): return HL;
+        case(3): return AF;
+    }
+    throw invalid_argument("Not a valid register");
+}
+//WARNING: Has side effect of incrementing and decrementing HL
+Uint8 CPU::fetchr16mem(Uint8 i, MEM* mem){
+    Uint8 value;
+    switch(i){
+        case(0): value = reg.getReg(BC);break;
+        case(1): value = reg.getReg(DE);break;
+        case(2): value = reg.HLI();break;
+        case(3): value = reg.HLD();break;
+        default: throw invalid_argument("Not a valid register");
+    }
+    return mem->getByte(value);
+}
 
+void CPU::loadr16mem(Uint8 i, MEM* mem, Uint8 value){
+    switch(i){
+        case(0): reg.setReg(BC, value); return;
+        case(1): reg.setReg(DE, value); return;
+        case(2): reg.setReg(HL, value); reg.HLI();return;
+        case(3): reg.setReg(AF, value); reg.HLD(); return;
+    }
+    throw invalid_argument("Not a valid register");
+}
+// Block 0
+void CPU::blockZero(int byte, MEM* mem){
+    if (byte == 0){
+        cout << "NOP" << endl;
+        return;
+    }
+    if(byte & 0b1111 == 1){
+        Reg dest = decoder16((byte >> 4) & 0b11);
+        reg.incrementPC();
+        Uint16 src = mem->getByte(reg.getPC()) << 8;
+        reg.incrementPC();
+        src |= mem->getByte(reg.getPC());
+        //this should be loaded in little-endian order
+        reg.setReg(dest, src);
+        return;
+    }
+    if(byte & 0b1111 == 1){
+        Uint8 value = reg.getReg(A);
+        loadr16mem((byte >> 4) & 0b11, mem, value);
+    }
+    if(byte & 0b1111 == 10){
+        Uint8 value = fetchr16mem((byte >> 4) & 0b11, mem);
+        reg.setReg(A, value);
+    }
+    if(byte == 8){
+        Uint8 value = reg.getSP();
+        reg.incrementPC();
+        Uint16 src = mem->getByte(reg.getPC()) << 8;
+        reg.incrementPC();
+        src |= mem->getByte(reg.getPC());
+        mem->setByte(src, value);
+    }
+
+}
 // Block 1
 void CPU::blockOne(Reg dest, Reg src, MEM* mem) {
     if(dest != HL && src != HL){
@@ -84,7 +149,7 @@ void CPU::blockOne(Reg dest, Reg src, MEM* mem) {
         // TODO: HALT instr
         return;
     } 
-    assert((mem != nullptr));
+    assert(mem != nullptr);
     if (dest == HL){
         mem->setByte(dest, reg.getReg(src));
         return;

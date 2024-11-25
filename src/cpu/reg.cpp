@@ -30,6 +30,18 @@ Uint16 Registers::getReg(Reg reg) {
     }
 }
 
+Uint16 Registers::HLD() {
+    Uint16 value = getReg(HL);
+    setReg(HL, value - 1);
+    return value;
+}
+
+Uint16 Registers::HLI() {
+    Uint16 value = getReg(HL);
+    setReg(HL, value + 1);
+    return value;
+}
+
 void Registers::setReg(Reg reg, Uint16 value) {
     if(reg > HL) throw std::invalid_argument("not a register");
     if(reg >= AF) {
