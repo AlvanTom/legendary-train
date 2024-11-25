@@ -69,14 +69,14 @@ void Registers::setFlag(Flags flag, bool val){
 }
 
 void Registers::printReg(){
-    cout << "A: " << hex << (uint)(getReg(A)) << endl;
-    cout << "B: " << hex << (uint)(getReg(B)) << endl;
-    cout << "C: " << hex << (uint)(getReg(C)) << endl;
-    cout << "D: " << hex << (uint)(getReg(D)) << endl;
-    cout << "E: " << hex << (uint)(getReg(E)) << endl;
+    cout << "A:       " << hex << (uint)(getReg(A)) << endl;
+    cout << "B:       " << hex << (uint)(getReg(B)) << endl;
+    cout << "C:       " << hex << (uint)(getReg(C)) << endl;
+    cout << "D:       " << hex << (uint)(getReg(D)) << endl;
+    cout << "E:       " << hex << (uint)(getReg(E)) << endl;
     cout << "F(ZNHC): " << hex << (uint)(getReg(F) >> 4) << endl;
-    cout << "H: " << hex << (uint)(getReg(H)) << endl;
-    cout << "L: " << hex << (uint)(getReg(L)) << endl;
+    cout << "H:       " << hex << (uint)(getReg(H)) << endl;
+    cout << "L:       " << hex << (uint)(getReg(L)) << endl;
 }
 
 Uint16 Registers::getSP(){

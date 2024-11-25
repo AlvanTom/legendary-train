@@ -15,7 +15,9 @@ class CPU{
         void execute();
         void printReg();
         void ldTest(int i, int j);
+        void callInstr(Uint8 a, Uint8 b);
         Reg decoder8(Uint8 i);
+        Registers exposeReg();
         void blockOne(Reg dest, Reg src, MEM* mem);
         void blockTwo(Reg op, Reg operand, MEM* mem);
 };

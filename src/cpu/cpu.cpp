@@ -16,12 +16,14 @@ CPU::CPU(MEM* mem) {
                 break;
                 }
                 case 1: {
+                    // Block 1
                     Reg dest = (Reg)((byte >> 3) & 0b111);
                     Reg src = (Reg)(byte & 0b111);
                     opcodes[i][j] = [this, dest, src, mem](){blockOne(decoder8(dest), decoder8(src), mem);};
                 break;
                 }
                 case 2:{
+                    // Block 2
                     Reg op = decoder8((byte >> 3) & 0b111);
                     Reg operand = decoder8(byte & 0b111);
                     opcodes[i][j] = [this, op, operand, mem](){blockTwo(op, operand, mem);};
@@ -36,12 +38,6 @@ CPU::CPU(MEM* mem) {
             }
         }
     }
-    reg.printReg();
-    opcodes[0x8][0x5]();
-    opcodes[0x8][0x5]();
-    opcodes[0x8][0x5]();
-    cout << "passed"<< endl;
-    reg.printReg();
 }
 
 CPU::~CPU() {
@@ -59,6 +55,10 @@ void CPU::ldTest(int i, int j) {
     cout << "i: " << i << ", j: " << j << endl;
 }
 
+void CPU::callInstr(Uint8 a, Uint8 b){
+    opcodes[a][b]();
+}
+
 Reg CPU::decoder8(Uint8 i){
     switch(i){
         case(0): return B;
@@ -71,6 +71,10 @@ Reg CPU::decoder8(Uint8 i){
         case(7): return A;
     }
     throw invalid_argument("Not a valid register");
+}
+
+Registers CPU::exposeReg(){
+    return reg;
 }
 
 // Block 1
