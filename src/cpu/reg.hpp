@@ -41,6 +41,8 @@ class Registers {
         ~Registers();
         Uint16 getReg(Reg reg);
         void setReg(Reg reg, Uint16 value);
+        Uint16 HLD();
+        Uint16 HLI();
         Uint16 getSP();
         void setSP(Uint16 value);
         Uint16 getPC();

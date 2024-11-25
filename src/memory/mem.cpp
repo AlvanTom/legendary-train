@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
+#include <cassert>
 using namespace std;
 
 MEM::MEM() {
@@ -15,10 +16,12 @@ MEM::~MEM(){
 }
 
 Uint8 MEM::getByte(int addr){
+    assert(mem[addr] < 256);
     return mem[addr];
 }
 
 void MEM::setByte(int addr, Uint8 val){
+    assert(val < 256);
     mem[addr] = val;
 }
 
