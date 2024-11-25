@@ -4,7 +4,7 @@
 using namespace std;
 
 int main () {
-    MEM mem = MEM();
-    CPU myCPU = CPU(&mem);
+    // MEM mem = MEM();
+    // CPU myCPU = CPU(&mem);
     return 0; 
 }
